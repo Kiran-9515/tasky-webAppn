@@ -7,7 +7,6 @@ const state = {
   
   // card on home page
   const htmlTaskContent = ({ id, title, description, type, url }) => `
-            
     <div class='col-md-6 col-lg-4 mt-3' id=${id} key=${id}>
       <div class='card shadow-sm task__card'>
         <div class='card-header d-flex gap-2 justify-content-end task__card__header'>
@@ -47,7 +46,6 @@ const state = {
     </div>
   `;
   
-  // Dynamic cards on home page
   const htmlModalContent = ({ id, title, description, url }) => {
     const date = new Date(parseInt(id));
     return `
@@ -100,23 +98,17 @@ const state = {
         id,
       })
     );
-  
-    // updated task list - for 1st go
+
     state.taskList.push({ ...input, id });
-  
-    // update the same on localStorage too
     updateLocalStorage();
   };
   
-  // opens new modal on our ui when user clicks open task
+  // Shows exisiting Task on UI
   const openTask = (e) => {
-    // pop up the current one
     if (!e) e = window.event;
   
-    // find the crt card opened
     const getTask = state.taskList.find(({ id }) => id === e.target.id);
     taskModal.innerHTML = htmlModalContent(getTask);
-    // console.log(getTask);
   };
   
   // delete operation
@@ -124,30 +116,25 @@ const state = {
     if (!e) e = window.event;
   
     const targetID = e.target.getAttribute("name");
-    // console.log(targetID);
   
     const type = e.target.tagName;
-    // console.log(type)
   
     const removeTask = state.taskList.filter(({ id }) => id !== targetID);
-    // console.log(removeTask);
   
     state.taskList = removeTask;
     updateLocalStorage();
   
     if (type === "BUTTON") {
-      // console.log(e.target.parentNode.parentNode.parentNode);
       return e.target.parentNode.parentNode.parentNode.parentNode.removeChild(
         e.parentNode.parentNode.parentNode
       );
     }
-    // console.log(e.target.parentNode.parentNode.parentNode.parentNode);
+
     return e.target.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(
       e.target.parentNode.parentNode.parentNode.parentNode
     );
   };
   
-  // edit operation
   const editTask = (e) => {
     if (!e) e = window.event;
   
